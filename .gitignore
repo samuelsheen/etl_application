@@ -7,3 +7,5 @@ __pycache__/
 .venv/
 venv/
 *.log
+etl_application/data/sqlite.db
+.python-version

@@ -11,9 +11,9 @@ setup(
         "dataclasses-json",
         "ratelimit",
         "pyyaml",
-        "prometheus-client>=0.17"
+        "prometheus-client>=0.17",
     ],
-    packages=["etl_application","etl_application/models"],
+    packages=["etl_application", "etl_application/models"],
     test_suite="tests",
     entry_points={"console_scripts": ["run_etl=etl_application.main:main"]},
 )

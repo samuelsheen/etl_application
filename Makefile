@@ -12,3 +12,6 @@ templates/%.yaml:
 define render
 	 helm template helm/etl_application/ --values helm/etl_application/values/dev.yaml --values helm/etl_application/dummy-secrets.yaml -s $@
 endef
+
+format:
+	python -m black .

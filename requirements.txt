@@ -1,8 +1,5 @@
-google-cloud-pubsub
-google-cloud-bigquery
-requests
-python-dotenv
-dataclasses-json
-ratelimit
-pyyaml
-
+pandas
+sqlalchemy
+pytest
+pytest-mock
+black

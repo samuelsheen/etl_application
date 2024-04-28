@@ -10,6 +10,7 @@ class class_a:
 
 class class_b:
     """This class creates instances of the ....t"""
+
     def __init__(self, data):
         self.data = data
         self.leaderboard = []
