@@ -1,0 +1,8 @@
+google-cloud-pubsub
+google-cloud-bigquery
+requests
+python-dotenv
+dataclasses-json
+ratelimit
+pyyaml
+

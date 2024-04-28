@@ -1,0 +1,22 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ template "etl_application.fullname" . }}-proxy
+  labels: {{ include "etl_application.labels" $ | nindent 4 }}
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "etl_application.name" . }}
+  egress:
+  - to:
+    {{- range $cidr := .Values.proxy.proxyCidr }}
+    - ipBlock:
+        cidr: {{ $cidr }}
+    {{- end }}
+    ports:
+      - protocol: TCP
+        port: {{ .Values.proxy.port_1 }}
+      - protocol: TCP
+        port: {{ .Values.proxy.port_2 }}

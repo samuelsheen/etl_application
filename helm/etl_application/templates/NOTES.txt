@@ -1,0 +1,3 @@
+This chart manages the deployment of the etl_application application with Kubernetes
+Its primary purpose is to allow extraction of data from the xxx Api, perform required transonformations, then publishing the resulting data to GCP PubSub
+

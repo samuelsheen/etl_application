@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "etl_application.fullname" . }}
+  labels:
+    {{- include "etl_application.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "etl_application.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "etl_application.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 600
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image }}:{{ .Values.global.deployment.version | default .Chart.AppVersion }}"
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+          ports:
+            - name: etl_application
+              containerPort: {{ .Values.servicePort }}
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - ls
+            # tcpSocket:
+            #   port: {{ .Values.servicePort }}
+            # initialDelaySeconds: 20
+            # periodSeconds: 5
+          resources:
+      {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: CLUSTER
+              value: {{ .Values.cluster }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/etc/keys/gcpsa.json"
+            - name: API_USER
+              value: {{ $.Values.secret.api.user }}
+            - name: API_PASS
+              value: {{ $.Values.secret.api.pass }}
+            - name: PROXY_SERVER
+              value: {{ $.Values.proxy.http_proxy }}
+            - name: PUSH_GATEWAY_HOST
+              value: '{{ $.Values.config.push_gateway_host }}'
+            - name: PUSH_GATEWAY_PORT
+              value: '{{ $.Values.pushGatewayPort }}'
+            - name: PUSH_GATEWAY_JOB_NAME
+              value: '{{ .Values.config.push_gateway_job_name }}'
+            - name: run_mode
+              value: {{ .Values.config.run_mode }}
+            - name: log_level
+              value: {{ .Values.config.log_level }}
+          volumeMounts:
+              - name: gcp-sa-key-file
+                readOnly: true
+                mountPath: /etc/keys
+      hostAliases:
+        - ip: {{ $.Values.hosts.oauth.ip }}
+          hostnames:
+            - {{ $.Values.hosts.oauth.hostname }}
+      volumes:
+        - name: gcp-sa-key-file
+          secret:
+            secretName: {{ include "etl_application.name" $ }}-gcp-sa-key   
+      
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
