@@ -1,0 +1,6 @@
+cluster: "dev"
+
+config:
+  run_mode: dev
+  log_level: INFO
+

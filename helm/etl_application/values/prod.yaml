@@ -1,0 +1,20 @@
+cluster: "prod"
+
+config:
+  run_mode: prod
+  log_level: INFO
+  push_gateway_host: 
+  push_gateway_job_name: etl_application
+
+proxy:
+  proxyCidr:
+    - 172.16.243.160/32
+    - 172.16.131.178/32
+    - 10.236.30.160/32
+  port_1:
+   80
+  port_2:
+   443
+  http_proxy: 
+  https_proxy:
+  no_proxy: 

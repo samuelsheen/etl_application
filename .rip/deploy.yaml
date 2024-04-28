@@ -1,0 +1,77 @@
+name: etl
+version: 0.1.0
+debug: true
+source:
+  type: helm
+  location: "./helm/etl_application"
+owner:
+  name: owner
+  slack: "#alert-channel"
+global:
+  cluster:
+    role: etl_application_role
+  namespace:
+    istio: false
+environments:
+  - name: local
+    cluster:
+      name: docker-desktop
+    namespace:
+      name: namespace
+    secrets: []
+  - name: dev
+    namespace:
+      name: sandbox
+    cluster:
+      name: dev-app
+      role: sandbox
+    secrets:
+      - source: vault
+        path: 'secret/data/etl_application/dev'
+        key: 'key'
+        as: 'secret.gcpsa.key'
+      - source: vault
+        path: 'secret/data/etl_application/dev'
+        key: 'API_USER'
+        as: 'secret.api.user'
+      - source: vault
+        path: 'secret/data/etl_application/dev'
+        key: 'API_PASS'
+        as: 'secret.api.pass'
+  - name: test
+    namespace:
+      name: etl_application_role-test
+    cluster:
+      name: test-app
+    secrets:
+      - source: vault
+        path: 'secret/data/etl_application/test'
+        key: 'key'
+        as: 'secret.gcpsa.key'
+      - source: vault
+        path: 'secret/data/etl_application/test'
+        key: 'API_USER'
+        as: 'secret.api.user'
+      - source: vault
+        path: 'secret/data/etl_application/test'
+        key: 'API_PASS'
+        as: 'secret.api.pass'
+  - name: prod
+    namespace:
+      name: etl_application_role-prod
+    cluster:
+      name: prod-app
+    secrets:
+      - source: vault
+        path: 'secret/data/etl_application/prod'
+        key: 'key'
+        as: 'secret.gcpsa.key'
+      - source: vault
+        path: 'secret/data/etl_application/prod'
+        key: 'API_USER'
+        as: 'secret.api.user'
+      - source: vault
+        path: 'secret/data/etl_application/prod'
+        key: 'API_PASS'
+        as: 'secret.api.pass'
+  

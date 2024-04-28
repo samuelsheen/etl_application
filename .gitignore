@@ -1,0 +1,11 @@
+check_output
+common.mk
+.DS_Store
+__pycache__/
+.pytest_cache/
+.vscode
+.venv/
+venv/
+*.log
+etl_application/data/sqlite.db
+.python-version

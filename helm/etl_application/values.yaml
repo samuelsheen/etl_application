@@ -1,0 +1,90 @@
+owner:
+  tribe: DATA
+  squad: owner
+  runbook: TBA
+  prometheusLabel: data-rep
+
+
+hosts:
+  oauth:
+    ip: 199.36.153.4
+    hostname: oauth2.googleapis.com
+
+proxy:
+  cidr: 172.16.243.160/32
+  http_proxy:
+  https_proxy: 
+  no_proxy: 
+
+replicaCount: 3
+
+## Image Info
+## ref: https://hub.docker.com/r/confluentinc/cp-kafka/
+image: 
+
+## Specify a imagePullPolicy
+## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+imagePullPolicy: Always
+
+## Specify an array of imagePullSecrets.
+## Secrets must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+imagePullSecrets:
+
+servicePort: 8083
+
+pushGatewayPort: 9091
+
+resources:
+  # # We usually recommend not to specify default resources and to leave this as a conscious
+  # # choice for the user. This also increases chances charts run on environments with little
+  # # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  requests:
+   cpu: 1
+   memory: 10Gi
+  limits:
+   cpu: 1.5
+   memory: 11Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+## Custom pod annotations
+podAnnotations: {}
+
+## Node labels for pod assignment
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+nodeSelector: {}
+
+## Taints to tolerate on node assignment:
+## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+tolerations: {}
+
+## You can list load balanced service endpoint, or list of all brokers (which is hard in K8s).  e.g.:
+## bootstrapServers: "PLAINTEXT://dozing-prawn-kafka-headless:9092"
+kafka:
+  bootstrapServers: ""
+  kafkaCidr: ""
+  kafkaPort: ""
+
+global:
+  deployment:
+    version:
+
+alerts:
+  excessivePodRestarts: 6
+  maxUnavailablePodsPercentage: 0.5
+  excessiveCPUUsage: 0.9
+  excessiveMemoryUsage: 0.9
+  excessiveConnectorsFailure: 0.5
+  excessiveTasksFailure: 0.5
+
+application:
+  security:
+    snyk:
+      - 

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "etl_application.name" . }}-push-gateway-policy
+  labels: {{ include "etl_application.labels" $ | nindent 4 }}
+spec:
+  podSelector: {}
+  egress:
+  - to:
+    - podSelector: {}
+  - ports:
+    - port: {{ .Values.pushGatewayPort }}
+      protocol: TCP
+  policyTypes:
+  - Egress
