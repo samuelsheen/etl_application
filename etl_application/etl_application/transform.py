@@ -1,13 +1,14 @@
 import pandas as pd
 
+
 class DataTransformer:
     def __init__(self, data_frame: pd.DataFrame):
         self.df = data_frame
 
     def normalise_column_names(self):
         """Normalise all column names to lower case and replace spaces with underscores."""
-        self.df.columns = [col.lower().replace(' ', '_') for col in self.df.columns]
-    
+        self.df.columns = [col.lower().replace(" ", "_") for col in self.df.columns]
+
     def fill_missing_values(self, column_name, fill_value):
         """Fill missing values in a specified column using a provided fill value."""
         if column_name in self.df.columns:
@@ -34,10 +35,15 @@ class DataTransformer:
         """Return the transformed DataFrame."""
         return self.df
 
+
 # Example usage
 if __name__ == "__main__":
     # Create sample data
-    data = {'Name': ['Alice', 'Bob', None], 'Age': [25, 30, 28], 'Salary': [50000, None, 42000]}
+    data = {
+        "Name": ["Alice", "Bob", None],
+        "Age": [25, 30, 28],
+        "Salary": [50000, None, 42000],
+    }
     df = pd.DataFrame(data)
 
     # Initialize the transformer
@@ -45,12 +51,11 @@ if __name__ == "__main__":
 
     # Apply transformations
     transformer.normalise_column_names()
-    transformer.fill_missing_values('name', 'Unknown')
-    transformer.fill_missing_values('salary', 0)
-    transformer.create_new_column('age_in_days', 'age * 365')
-    transformer.drop_columns(['age'])
-   
+    transformer.fill_missing_values("name", "Unknown")
+    transformer.fill_missing_values("salary", 0)
+    transformer.create_new_column("age_in_days", "age * 365")
+    transformer.drop_columns(["age"])
+
     # Get the transformed data
     transformed_df = transformer.get_transformed_data()
     print(transformed_df)
-
