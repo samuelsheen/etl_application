@@ -3,9 +3,9 @@
 ## Owned by: owner
 ---
 # Description
-This is a Python application hosted in Kubernetes. The purpose of this application is to pull data from the source API (https://itv7.itv.com/api/v1/round) and ingest to big query. Data will then be exported to Oracle and presented to CRM for querying. 
+This is a Python application hosted in Kubernetes. The purpose of this application is to pull data from source, perform transformations, and load to destination. 
 
-The data flow is as follows: sourceApi -> App -> GCP.
+The data flow is as follows: source -> App -> destination.
 
 Further documentation describing useful commands, the permission groups, Jenkins etc can be found here: 
 
