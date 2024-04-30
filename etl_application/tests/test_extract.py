@@ -1,8 +1,4 @@
 import pandas as pd
-from sqlalchemy.engine import Engine
-from unittest.mock import patch, MagicMock
-
-
 from etl_application.extract import Extractor
 
 

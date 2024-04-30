@@ -15,4 +15,9 @@ Technical Elaboration of the app:
 
 Entity Relationship Diagram: 
 
----
+# Set up
+- Navigate to code\etl_application\etl_application
+- Setup a Virtual Environment
+- - run `python -m venv venv`
+- - `venv\Scripts\activate.bat` (Windows)
+- - `pip install -r ..\requirements.txt`
