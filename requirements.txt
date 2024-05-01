@@ -3,3 +3,4 @@ sqlalchemy
 pytest
 pytest-mock
 black
+setuptools
